@@ -3,22 +3,32 @@
     <meta charset="utf-8">
 	<title>d3 multi-line chart</title>
     <style>
+        body {
+            background-color: black;
+        }
+        #theme-lines {
+            background-color: black;
+        }
 		.line {
 			fill: none;
 			stroke-width: 1px;
 		}
 
 		.axis path {
-			stroke: black;
+			stroke: white;
 			stroke-width: 1px;
 			fill: none;
 			shape-rendering: crispEdges;
 		}
 
 		.tick line {
-			stroke: black;
+			stroke: white;
 			stroke-width: 1px;
 		}
+
+        .tick text {
+            stroke: white;
+        }
 	</style>
 </head>
 <script src='https://d3js.org/d3.v5.min.js'></script>

@@ -1,6 +1,6 @@
 async function init() {
     var data;
-    var url = "https://raw.githubusercontent.com/colbyyh2/NarrativeVis/main/data_new/sets_theme_year_cum_stacked.csv";
+    var url = "data_new/sets_theme_year_stacked.csv";
 
     var margin = {left: 60, right: 30, top: 30, bottom: 50 };
     var width = 1200;
@@ -20,7 +20,7 @@ async function init() {
                         '#E64D66', '#4DB380', '#FF4D4D', '#99E6E6', '#6666FF'];
 
     data = await d3.csv(url);
-    let x = d3.scaleLinear().domain([1945,2025]).range([0,width]);
+    let x = d3.scaleLinear().domain([1948,2022]).range([0,width]);
     let y = d3.scaleLinear().domain([0,2400]).range([height,0]);
 
     var xAxis = d3.axisBottom(x).tickValues(tick_vals).tickFormat(d3.format(""));
@@ -30,12 +30,11 @@ async function init() {
 
     var svg = d3.select("#dataviz")
         .append("svg")
+        .attr("id", "theme-lines")
         .attr("width",width + margin.left + margin.right)
         .attr("height",height + margin.top + margin.bottom)
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-    var chartGroup = svg.append("g")
-                        .attr("class", "chartGroup");
     
     // add the x axis
     svg.append("g")
@@ -57,5 +56,24 @@ async function init() {
         .text("Sets");
 
     
+    //https://d3-graph-gallery.com/graph/line_several_group.html
+    var linegroup = d3.nest()
+                        .key(function(d) {return d.theme;})
+                        .entries(data);
+    var res = linegroup.map(function(d){return d.key})
 
+    svg.selectAll(".line")
+        .data(linegroup)
+        .enter()
+        .append("path")
+            .attr("id", function(d){return d.key;})
+            .attr("fill", "none")
+            .attr("stroke-width", "2px")
+            .attr("stroke", function(d,i){return line_colors[i % line_colors.length]})
+            .attr("d", function(d){
+                return d3.line()
+                  .x(function(d) { return x(d.year); })
+                  .y(function(d) { return y(+d.count); })
+                  (d.values)
+            })
 }
