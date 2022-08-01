@@ -3,11 +3,8 @@
     <meta charset="utf-8">
 	<title>d3 multi-line chart</title>
     <style>
-        body {
-            background-color: black;
-        }
         #theme-lines {
-            background-color: black;
+            background-color: #333333;
         }
 		.line {
 			fill: none;
@@ -29,12 +26,44 @@
         .tick text {
             stroke: white;
         }
+
+        div {
+            padding: 10px;
+        }
+
+        #selection {
+            background-color: #333333;
+        }
+
+        .flex-container {
+            display: flex;
+        }
+
+        .flex-child {
+            flex: 1;
+            border: 2px solid blue;
+        }
+
+        .flex-child:first-child {
+            margin-right: 20px;
+        } 
+
+        #hideall-button {
+            margin: 5px;
+        }
 	</style>
 </head>
 <script src='https://d3js.org/d3.v5.min.js'></script>
 <body onload="init()">
-    <div id="dataviz"></div>
-
+    <div class="flex-container" style="width: 100%;">
+        <div id="dataviz" style="display:flex; width: 1290px; height:fit-content; overflow: hidden"></div>
+        <div class="flex-container" style="flex-direction:column; height:880px; width: 400px">
+            <input type="text" id="theme-search" onkeyup="search()" placeholder="Find a theme...">
+            <div class="flex-child" id="selection" style="height: 800px; overflow: scroll; border:1px solid #ccc;"></div>
+            <button type="button" id="hideall-button" onclick="hideall()">Hide All</button>
+            <button type="button" id="hideall-button" onclick="showall()">Show All</button>
+        </div>
+    </div>
     <script src="src/sets.js"></script>
 </body>
 </html>
