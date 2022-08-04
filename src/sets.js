@@ -4,7 +4,7 @@ async function init() {
 
     var margin = {left: 60, right: 30, top: 30, bottom: 50 };
     var width = 1200;
-    var height = 800;
+    var height = 700;
     var tick_vals = [1950, 1955, 1960, 1965, 1970,
                      1975, 1980, 1985, 1990, 1995,
                      2000, 2005, 2010, 2015, 2020];
@@ -21,7 +21,7 @@ async function init() {
     var line_colors = ['#8dd3c7','#ffffb3','#bebada','#fb8072','#80b1d3','#fdb462','#b3de69','#fccde5','#d9d9d9','#bc80bd','#ccebc5','#ffed6f'];
 
     data = await d3.csv(url);
-    let x = d3.scaleLinear().domain([1948,2022]).range([0,width]);
+    let x = d3.scaleLinear().domain([1948,2025]).range([0,width]);
     let y = d3.scaleLinear().domain([0,d3.max(data, function(d){return +d.count;})]).range([height,0]);
 
     var xAxis = d3.axisBottom(x).tickValues(tick_vals).tickFormat(d3.format(""));
@@ -56,7 +56,7 @@ async function init() {
         .attr("fill", "white")
         .style("text-anchor", "middle")
         .style("font-size", "16pt")
-        .text("Sets");
+        .text("# Sets");
 
     
     //https://d3-graph-gallery.com/graph/line_several_group.html
@@ -65,21 +65,42 @@ async function init() {
                         .entries(data);
     var res = linegroup.map(function(d){return d.key})
 
-    svg.selectAll(".line")
+    var themelines = svg.selectAll('.theme-line')
         .data(linegroup)
-        .enter()
-        .append("path")
-            .attr("id", function(d){return d.key;})
+        .enter().append("g")
             .attr("class", "theme-line")
-            .attr("fill", "none")
-            .attr("stroke-width", "2px")
-            .attr("stroke", function(d,i){return line_colors[i % line_colors.length]})
-            .attr("d", function(d){
-                return d3.line()
-                  .x(function(d) { return x(d.year); })
-                  .y(function(d) { return y(+d.count); })
-                  (d.values)
-            })
+            .attr("id", function(d) {return d.key;});
+
+    themelines.append("path")
+        .attr("id", function(d){return d.key;})
+        .attr("class", "line")
+        .attr("fill", "none")
+        .attr("stroke-width", "2px")
+        .attr("stroke", function(d,i){return line_colors[i % line_colors.length]})
+        .attr("d", function(d){
+            // console.log(d);
+            return d3.line()
+            .x(function(d) { return x(d.year); })
+            .y(function(d) { return y(+d.count); })
+            (d.values);
+        });
+    
+    themelines.append("text")
+        .attr("transform", function(d) {return "translate(" + x(2022) + "," + y(d.values[71].count) + ")";})
+        .attr("x", 3)
+        .attr("dy", "0.35em")
+        .style("font", "10px sans-serif")
+        .style("stroke", "none")
+        .attr("fill", "white")
+        .text(function(d) {
+            console.log(d.key + " " + d.key.length);
+            if (d.key.length <= 10) {
+                return d.key;
+            } else {
+                return d.key.substring(0, 7) + "...";
+            }
+        })
+        .attr("alt", function(d) {return d.key;});
 
     // populate checkboxes
     console.log(res)
@@ -96,12 +117,12 @@ async function init() {
                         .attr("type", "checkbox")
                         .attr("checked", "true")
                         .attr("id", function(d) {return d + "_cbox";})
-                        .attr("onchange", "checkFx(this)")
+                        .attr("onchange", "checkboxToggle(this)")
 
     checks.style("display: table-cell; height: 800px; overflow: scroll; border:1px solid #ccc;");
 }
 
-function checkFx(item) {
+function checkboxToggle(item) {
     var path_id = item.id.split("_")[0];
     console.log(path_id);
     var path = document.getElementById(path_id);

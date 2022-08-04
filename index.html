@@ -6,9 +6,13 @@
         #theme-lines {
             background-color: #333333;
         }
+
+        body {
+            font-family: sans-serif;
+        }
 		.line {
 			fill: none;
-			stroke-width: 1px;
+			stroke-width: 2px;
 		}
 
 		.axis path {
@@ -55,11 +59,14 @@
 </head>
 <script src='https://d3js.org/d3.v5.min.js'></script>
 <body onload="init()">
+    <div>
+        <h1>Cumulative LEGO Sets Per Year By Theme</h1>
+    </div>
     <div class="flex-container" style="width: 100%;">
         <div id="dataviz" style="display:flex; width: 1290px; height:fit-content; overflow: hidden"></div>
-        <div class="flex-container" style="flex-direction:column; height:880px; width: 400px">
+        <div class="flex-container" style="flex-direction:column; height:780px; width: 400px">
             <input type="text" id="theme-search" onkeyup="search()" placeholder="Find a theme...">
-            <div class="flex-child" id="selection" style="height: 800px; overflow: scroll; border:1px solid #ccc;"></div>
+            <div class="flex-child" id="selection" style="height: 700px; overflow: scroll; border:1px solid #ccc;"></div>
             <button type="button" id="hideall-button" onclick="hideall()">Hide All</button>
             <button type="button" id="hideall-button" onclick="showall()">Show All</button>
         </div>
