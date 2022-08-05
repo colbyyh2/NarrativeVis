@@ -32,6 +32,22 @@
         .legoset {
             stroke: black;
         }
+        div {
+            padding: 10px;
+        }
+
+        .flex-container {
+            display: flex;
+        }
+
+        .flex-child {
+            flex: 1;
+            border: 2px solid blue;
+        }
+
+        .flex-child:first-child {
+            margin-right: 20px;
+        } 
 	</style>
 </head>
 <script src='https://d3js.org/d3.v5.min.js'></script>
@@ -41,6 +57,7 @@
     </div>
     <div class="flex-container" style="width: 100%;">
         <div id="dataviz" style="display:flex; width: 1290px; height:fit-content; overflow: hidden"></div>
+        <div class="flex-child" id="selection" style="height: 800px; overflow: scroll; border:1px solid #ccc;"></div>
     </div>
     <script src="src/largest.js"></script>
 </body>

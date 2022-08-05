@@ -25,18 +25,25 @@ async function init() {
     
     data = await d3.csv(url);
     console.log(data);
+
+    var yeargroup = d3.nest()
+                        .key(function(d) {return d.set_num;})
+                        .entries(data);
+    var res = yeargroup.map(function(d){return d.key})
+
     let x = d3.scaleBand().domain(Array.range(1949,2023)).range([0,width]);
     let y = d3.scaleLinear().domain([0,1000+d3.max(data, function(d){return +d.num_parts;})]).range([height, 0])
 
     var xAxis = d3.axisBottom(x).tickValues(tick_vals).tickFormat(d3.format(""));
     var yAxis = d3.axisLeft(y);
 
-    var themes = [...new Set(data.theme)];
+    var themes = [...new Set(yeargroup.map(function(d){return d.values[0].theme}))];
     var theme_colors = {};
     for (var i = 0; i < themes.length; i++) {
         theme_colors[themes[i]] = colors[i % colors.length];
     }
-    console.log(themes);
+    console.log(theme_colors);
+    
 
     var svg = d3.select("#dataviz")
         .append("svg")
@@ -79,7 +86,7 @@ async function init() {
         .attr("class", "legoset")
         .attr("x", function(d) {return x(d.year);})
         .attr("y", function(d) {return y(d.num_parts);})
-        .attr("fill", function(d, i) {return colors[i % colors.length];})
+        .attr("fill", function(d, i) {return theme_colors[d.theme];})
         .attr("width", x.bandwidth())
         .attr("height", function(d) {return height - y(d.num_parts);});
     
@@ -89,45 +96,55 @@ async function init() {
         .attr("class", "mouseover-rect")
         .attr("x", function(d) {return x(d.year);})
         .attr("y", 0)
-        .attr("fill", "none")
+        .attr("fill", "lightblue")
+        .attr("opacity", 0)
         .attr("stroke", "none")
         .attr("width", x.bandwidth())
-        .attr("height", height);
-    
-    // Tooltips
-
-    
-
-    //https://bl.ocks.org/larsenmtl/e3b8b7c2ca4787f77d78f58d41c3da91
-    var mouseG = svg.append("g")
-        .attr("class", "mouse-over-effects");
-    mouseG.append("path")
-        .attr("class", "mouse-line")
-        .style("stroke", "#ccc")
-        .style("stroke-width", "1px")
-        .style("opacity", "0");
-
-    mouseG.append('svg:rect') // append a rect to catch mouse movements on canvas
-        .attr('width', width) // can't catch mouse events on a g element
-        .attr('height', height)
-        .attr('fill', 'none')
+        .attr("height", height)
         .attr('pointer-events', 'all')
-        .on('mouseout', function() { // on mouse out hide line, circles and text
-            d3.select(".mouse-line")
-              .style("opacity", "0");
+        .on("mouseover", function(d) {
+            console.log("hello");
+            d3.select(this).attr("opacity", 0.25);
+            d3.select("#set-image").attr("src", "https://img.bricklink.com/ItemImage/SL/" + d.set_num + ".png");
+            d3.select("#set-number").text(d.set_num);
+            d3.select("#set-name").text(d.set_name);
+            d3.select("#set-year").text("Year: " + d.year);
+            d3.select("#set-theme").text("Theme: " + d.theme);
+            d3.select("#set-size").text("Pieces: " + d.num_parts);
         })
-        .on("mouseover", function() {
-            d3.select(".mouse-line")
-                .style("opacity", "1");
-        })
-        .on("mousemove", function() {
-            var mouse = d3.mouse(this);
-            d3.select(".mouse-line")
-            .attr("d", function() {
-                var d = "M" + mouse[0] + "," + height;
-                d += " " + mouse[0] + "," + 0;
-                return d;
-            }); 
+        .on("mouseout", function(d) {
+            d3.select(this).attr("opacity", 0);
         });
-        
+    
+    // Tooltip
+    var setinfo = d3.select("#selection");
+    setinfo.append("img")
+        .attr("id", "set-image")
+        .attr("width", "100%")
+        .attr("height", "auto")
+        .style("max-height", "500px")
+        .style("display", "block")
+        .style("margin-left", "auto")
+        .style("margin-right", "auto")
+        .attr("src", "https://img.bricklink.com/ItemImage/SL/31203-1.png");
+    setinfo.append("h1")
+        .attr("id", "set-number")
+        .text("31203-1");
+    
+    setinfo.append("h3")
+        .attr("id", "set-name")
+        .text("World Map");
+    setinfo.append("p")
+        .attr("id", "set-year")
+        .text("Year: 2021");
+    setinfo.append("p")
+        .attr("id", "set-theme")
+        .text("Theme: LEGO Art");
+    setinfo.append("p")
+        .attr("id", "set-size")
+        .text("Pieces: 11695");        
+}
+
+function setinfo() {
+
 }

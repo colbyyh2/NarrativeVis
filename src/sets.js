@@ -64,6 +64,7 @@ async function init() {
                         .key(function(d) {return d.theme;})
                         .entries(data);
     var res = linegroup.map(function(d){return d.key})
+    console.log(linegroup);
 
     var themelines = svg.selectAll('.theme-line')
         .data(linegroup)
@@ -93,7 +94,7 @@ async function init() {
         .style("stroke", "none")
         .attr("fill", "white")
         .text(function(d) {
-            console.log(d.key + " " + d.key.length);
+            //console.log(d.key + " " + d.key.length);
             if (d.key.length <= 10) {
                 return d.key;
             } else {
@@ -103,7 +104,7 @@ async function init() {
         .attr("alt", function(d) {return d.key;});
 
     // populate checkboxes
-    console.log(res)
+    console.log(res);
     var checks = d3.select("#selection")
                     .selectAll()
                     .data(res)
@@ -120,6 +121,41 @@ async function init() {
                         .attr("onchange", "checkboxToggle(this)")
 
     checks.style("display: table-cell; height: 800px; overflow: scroll; border:1px solid #ccc;");
+
+    //annotations
+    const type = d3.annotationLabel;
+
+    const annotations = [
+        {
+            note: {label: "The \"Gear\" theme contains items like backpacks, carrying cases, watches, and other accessories."},
+            x: x(2022),
+            y: y(2130),
+            dy:10,
+            dx:-162,
+            type: d3.annotationCallout
+        },
+        {
+            note: {label: "The Lego Group began producing in 1949."},
+            x: x(1949),
+            y: y(0),
+            dy:-120,
+            dx:30,
+            type: d3.annotationCallout
+        },
+        {
+            note: {label: "An abrupt increase in slope shows many sets were produced this year. 116 Lego Technic sets are listed for 2014."},
+            x: x(2013),
+            y: y(650),
+            dy:-120,
+            dx:-60,
+            type: d3.annotationCallout
+        },
+    ];
+    const makeAnnotations = d3.annotation().annotations(annotations);
+    svg.append("g")
+        .attr("class", "annotation-group")
+        .style("font-size", "11pt")
+        .call(makeAnnotations);
 }
 
 function checkboxToggle(item) {
