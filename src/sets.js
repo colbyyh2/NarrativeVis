@@ -4,7 +4,7 @@ async function init() {
 
     var margin = {left: 60, right: 30, top: 30, bottom: 50 };
     var width = 1200;
-    var height = 700;
+    var height = 600;
     var tick_vals = [1950, 1955, 1960, 1965, 1970,
                      1975, 1980, 1985, 1990, 1995,
                      2000, 2005, 2010, 2015, 2020];
@@ -146,6 +146,14 @@ async function init() {
             note: {label: "An abrupt increase in slope shows many sets were produced this year. 116 Lego Technic sets are listed for 2014."},
             x: x(2013),
             y: y(650),
+            dy:-150,
+            dx:-120,
+            type: d3.annotationCallout
+        },
+        {
+            note: {label: "Lines appearing with steeper slopes in the 2000s show a growth in the number of sets being released."},
+            x: x(2010),
+            y: y(232),
             dy:-120,
             dx:-60,
             type: d3.annotationCallout

@@ -1,0 +1,100 @@
+<html>
+<head>
+    <meta charset="utf-8">
+	<title>Minifigs per year</title>
+    <style>
+        #minifigs {
+            background-color: #333333;
+        }
+
+        body {
+            font-family: sans-serif;
+        }
+		.line {
+			fill: none;
+			stroke-width: 2px;
+		}
+
+		.axis path {
+			stroke: white;
+			stroke-width: 1px;
+			fill: none;
+			shape-rendering: crispEdges;
+		}
+
+		.tick line {
+			stroke: white;
+			stroke-width: 1px;
+		}
+
+        .tick text {
+            stroke: white;
+        }
+
+        div {
+            padding: 10px;
+        }
+
+        #selection {
+            background-color: #333333;
+        }
+
+        .flex-container {
+            display: flex;
+        }
+
+        .flex-child {
+            flex: 1;
+            border: 2px solid blue;
+        }
+
+        .flex-child:first-child {
+            margin-right: 20px;
+        } 
+
+        #hideall-button {
+            margin: 5px;
+        }
+
+        .mfig-div {
+            color: white;
+            border:1px solid #ccc;
+        }
+
+        .mfig-div p {
+            font: 11px sans-serif;
+        }
+        .text-info {
+            padding: 0px;
+        }
+	</style>
+</head>
+<script src='https://d3js.org/d3.v5.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/d3-annotation/2.5.1/d3-annotation.min.js'></script>
+<body onload="init()">
+    <div class="text-info">
+        <h1>Minifigs released each year</h1>
+        <p>This graphs displays the number of LEGO minifigures that appeared for the first time in each year. 
+            A minifigure/minifig is a small plastic articulated figurine that usually consists of several parts,
+            often including a head, torso, legs, and hair, hats, and other accessories. Watch how more and more 
+            unique minifigs are introduced, or click on the graph and look to the right to see what minifigs were
+            introduced that year.
+        </p>
+    </div>
+    <div class="flex-container" style="width: 100%;">
+        <div id="dataviz" style="display:flex; width: 1290px; height:fit-content; overflow: hidden"></div>
+        <div class="flex-container" style="flex-direction:column; height:680px; width: 400px">
+            <h3 id="minifig-year" style="padding:0px;margin:0px">Minifigs First Seen in <i>year</i>:</h3>
+            <p style="font:10px sans-serif;color:#333">Hover over a bar to see the number first seen that year</p>
+            <p>List of Minifigs first seen in selected year</p>
+            <div class="flex-child" id="selection" style="height: 700px; overflow: scroll; border:1px solid #ccc;"></div>
+        </div>
+    </div>
+    <script src="src/minifigs.js"></script>
+    <div class="flex-container" style="width: 100%; justify-content: space-around">
+        <div><a href="mostpieces.html"><< Previous</a></div>
+        <div><a href="index.html">Back Home</a></div>
+        <div><a href="minifigs.html">Reached End, back home >></a></div>
+    </div>
+</body>
+</html>

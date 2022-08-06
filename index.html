@@ -1,77 +1,40 @@
 <html>
-<head>
+    <head>
     <meta charset="utf-8">
-	<title>d3 multi-line chart</title>
+	<title>Home</title>
     <style>
-        #theme-lines {
-            background-color: #333333;
-        }
-
         body {
             font-family: sans-serif;
+            display:flex;
+            align-items: center;
+            flex-direction: column;
+            justify-content: space-between;
         }
-		.line {
-			fill: none;
-			stroke-width: 2px;
-		}
+    </style>
+    </head>
 
-		.axis path {
-			stroke: white;
-			stroke-width: 1px;
-			fill: none;
-			shape-rendering: crispEdges;
-		}
-
-		.tick line {
-			stroke: white;
-			stroke-width: 1px;
-		}
-
-        .tick text {
-            stroke: white;
-        }
-
-        div {
-            padding: 10px;
-        }
-
-        #selection {
-            background-color: #333333;
-        }
-
-        .flex-container {
-            display: flex;
-        }
-
-        .flex-child {
-            flex: 1;
-            border: 2px solid blue;
-        }
-
-        .flex-child:first-child {
-            margin-right: 20px;
-        } 
-
-        #hideall-button {
-            margin: 5px;
-        }
-	</style>
-</head>
-<script src='https://d3js.org/d3.v5.min.js'></script>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/d3-annotation/2.5.1/d3-annotation.min.js'></script>
-<body onload="init()">
-    <div>
-        <h1>Cumulative LEGO Sets Per Year By Theme</h1>
-    </div>
-    <div class="flex-container" style="width: 100%;">
-        <div id="dataviz" style="display:flex; width: 1290px; height:fit-content; overflow: hidden"></div>
-        <div class="flex-container" style="flex-direction:column; height:780px; width: 400px">
-            <input type="text" id="theme-search" onkeyup="search()" placeholder="Find a theme...">
-            <div class="flex-child" id="selection" style="height: 700px; overflow: scroll; border:1px solid #ccc;"></div>
-            <button type="button" id="hideall-button" onclick="hideall()">Hide All</button>
-            <button type="button" id="hideall-button" onclick="showall()">Show All</button>
+    <body>
+        <h1 style="margin:20px">
+            History of LEGO
+        </h1>
+        <h3>A Narrative Visualization</h3>
+        <p style="max-width:1000px">
+            The LEGO Group is a Danish company founded in 1932. The company has been producing toys 
+            consisting of sets of interlocking brick-shaped plastic parts since 1947. The following 
+            slideshow explores several aspects of the history of these sets, including the different
+            themes of the sets, their sizes, and LEGO figurines or minifigs in these sets.
+        </p>
+        <p style="font-size: 12px">
+            Data is sourced from the <a href="https://rebrickable.com/downloads/">Rebrickable database</a>.
+        </p>
+        <form action="themes.html" >
+            <input style="width:300px; height: 50px" type="submit" value="Start Slideshow"/>
+        </form>
+        <p>or jump to:</p>
+        <div style="width: 50%;display:flex; flex-direction:row; align-items:center; justify-content:space-around">
+            <a href="themes.html">Themes and Sets</a>
+            <a href="mostpieces.html">Set Sizes</a>
+            <a href="minifigs.html">Minifigs</a>
         </div>
-    </div>
-    <script src="src/sets.js"></script>
-</body>
+    </body>
 </html>

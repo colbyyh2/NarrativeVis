@@ -6,7 +6,7 @@ async function init() {
 
     var margin = {left: 60, right: 30, top: 30, bottom: 50 };
     var width = 1200;
-    var height = 700;
+    var height = 600;
     var tick_vals = [1950, 1955, 1960, 1965, 1970,
                      1975, 1980, 1985, 1990, 1995,
                      2000, 2005, 2010, 2015, 2020];
@@ -87,7 +87,7 @@ async function init() {
         .attr("x", function(d) {return x(d.year);})
         .attr("y", function(d) {return y(d.num_parts);})
         .attr("fill", function(d, i) {return theme_colors[d.theme];})
-        .attr("width", x.bandwidth())
+        .attr("width", x.bandwidth() - 1)
         .attr("height", function(d) {return height - y(d.num_parts);});
     
     // Mouseover rects
@@ -103,7 +103,6 @@ async function init() {
         .attr("height", height)
         .attr('pointer-events', 'all')
         .on("mouseover", function(d) {
-            console.log("hello");
             d3.select(this).attr("opacity", 0.25);
             d3.select("#set-image").attr("src", "https://img.bricklink.com/ItemImage/SL/" + d.set_num + ".png");
             d3.select("#set-number").text(d.set_num);
@@ -122,7 +121,7 @@ async function init() {
         .attr("id", "set-image")
         .attr("width", "100%")
         .attr("height", "auto")
-        .style("max-height", "500px")
+        .style("max-height", "400px")
         .style("display", "block")
         .style("margin-left", "auto")
         .style("margin-right", "auto")
@@ -142,7 +141,69 @@ async function init() {
         .text("Theme: LEGO Art");
     setinfo.append("p")
         .attr("id", "set-size")
-        .text("Pieces: 11695");        
+        .text("Pieces: 11695"); 
+        
+    // Annotations
+    const type = d3.annotationLabel;
+
+    const center1x = x(1991) - 1;
+    const center1y = y(2195) - 250;
+
+    const annotations = [
+        {
+            note: {label: "Hover over the graph for more information about each year's largest set!"},
+            x: x(1961),
+            y: y(760),
+            dy:-400,
+            dx:30,
+            type: d3.annotationCallout
+        },
+        {
+            note: {label: "Lego sets have been increasing in size over time. There is an upward trend in the size of the largest set for each year."},
+            x: x(1991),
+            y: y(2195),
+            dy:-250,
+            dx: -1,
+            type: d3.annotationCallout
+        },
+        {
+            note: {label: ""},
+            x: x(2005),
+            y: y(5462),
+            dx: center1x - x(2005),
+            dy: center1y - y(5462),
+            type: d3.annotationCallout
+        },
+        {
+            note: {label: ""},
+            x: x(2015),
+            y: y(9987),
+            dx: center1x - x(2015),
+            dy: center1y - y(9987),
+            type: d3.annotationCallout
+        },
+        {
+            note: {label: ""},
+            x: x(2021),
+            y: y(11695),
+            dx: center1x - x(2021),
+            dy: center1y - y(11695),
+            type: d3.annotationCallout
+        },
+        {
+            note: {label: "The first set to break 1000 pieces released in 1985."},
+            x: x(1985),
+            y: y(1534),
+            dx: -40,
+            dy: -60,
+            type: d3.annotationCallout
+        },
+    ];
+    const makeAnnotations = d3.annotation().annotations(annotations);
+    svg.append("g")
+        .attr("class", "annotation-group")
+        .style("font-size", "11pt")
+        .call(makeAnnotations);
 }
 
 function setinfo() {

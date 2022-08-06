@@ -48,17 +48,34 @@
         .flex-child:first-child {
             margin-right: 20px;
         } 
+        .text-info {
+            padding: 0px;
+        }
 	</style>
 </head>
 <script src='https://d3js.org/d3.v5.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/d3-annotation/2.5.1/d3-annotation.min.js'></script>
 <body onload="init()">
-    <div>
+    <div class="text-info">
         <h1>Largest LEGO Sets Per Year By Number of Parts</h1>
+        <p>
+            This graph shows the set with the most parts for each year in the history of LEGO. 
+            Watch for trends in the size of the largest sets. Additionally, try hovering your cursor
+            over the bars and see the change in how elaborate the sets are in the image on the right.
+        </p>
+        <p style="font:10px sans-serif">
+            <i>Images sourced from <a href="bricklink.com">bricklink.com</a></i>
+        </p>
     </div>
     <div class="flex-container" style="width: 100%;">
         <div id="dataviz" style="display:flex; width: 1290px; height:fit-content; overflow: hidden"></div>
-        <div class="flex-child" id="selection" style="height: 800px; overflow: scroll; border:1px solid #ccc;"></div>
+        <div class="flex-child" id="selection" style="height: 700px; overflow: scroll; border:1px solid #ccc;"></div>
     </div>
     <script src="src/largest.js"></script>
+    <div class="flex-container" style="width: 100%; justify-content: space-around">
+        <div><a href="themes.html"><< Previous</a></div>
+        <div><a href="index.html">Back Home</a></div>
+        <div><a href="minifigs.html">Next >></a></div>
+    </div>
 </body>
 </html>
